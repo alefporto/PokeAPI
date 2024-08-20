@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const pokemonSchema = new mongoose.Schema({
     
@@ -42,4 +42,8 @@ const pokemonSchema = new mongoose.Schema({
         required: true
     }
 
-}, {versionKey: false})
+}, {versionKey: false});
+
+const pokemon = mongoose.model("pokemons", pokemonSchema);
+
+export default pokemon;
