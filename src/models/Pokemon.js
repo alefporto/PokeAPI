@@ -1,48 +1,44 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const pokemonSchema = new mongoose.Schema({
-    
-    id: {type: mongoose.Schema.Types.ObjectId},
-
-    nome: {
+    id: { type: mongoose.Schema.Types.ObjectId },
+    name: {
         type: String,
         required: true
     },
-
-    numero: {
+    number: {
         type: Number,
         required: true
     },
-
-    tipo: {
+    type: {
         type: String,
-        enum: [ "Normal",
-                "Fire",
-                "Water",
-                "Grass",
-                "Flying",
-                "Fighting",
-                "Poison",
-                "Electric",
-                "Ground",
-                "Rock",
-                "Psychic",
-                "Ice",
-                "Bug",
-                "Ghost",
-                "Steel",
-                "Dragon",
-                "Dark",
-                "Fairy" ],
+        enum: [
+            "Normal",
+            "Fire",
+            "Water",
+            "Grass",
+            "Flying",
+            "Fighting",
+            "Poison",
+            "Electric",
+            "Ground",
+            "Rock",
+            "Psychic",
+            "Ice",
+            "Bug",
+            "Ghost",
+            "Steel",
+            "Dragon",
+            "Dark",
+            "Fairy"
+        ],
         required: true
     },
-
-    imagem: {
+    image: {
         type: String,
         required: true
     }
-
-}, {versionKey: false});
+}, { versionKey: false });
 
 const pokemon = mongoose.model("pokemons", pokemonSchema);
 
