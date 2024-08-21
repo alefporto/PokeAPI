@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// Define o Schema (estrutura) de um documento no banco de dados
 const pokemonSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId },
     name: {
@@ -40,6 +41,7 @@ const pokemonSchema = new mongoose.Schema({
     }
 }, { versionKey: false });
 
+// Instancia o modelo pokemon com base no schema definido anteriormente
 const pokemon = mongoose.model("pokemons", pokemonSchema);
 
 export default pokemon;
