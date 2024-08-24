@@ -6,8 +6,19 @@ class PokemonController {
         try {
             const pokemons = await pokemon.find();
             return res.status(200).json(pokemons);
-        } catch(err){
-            res.json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+
+        } catch(err) {
+            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+        }
+    }
+
+    async showByNumber(req, res){
+        try {
+            const id = req.params.id;
+            const result = await pokemon.findOne({number: id});
+            return res.status(200).json(result); 
+        } catch(err) {
+            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
         }
     }
 }
