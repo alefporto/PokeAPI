@@ -30,6 +30,16 @@ class PokemonController {
             res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
         }
     }
+
+    async update(req, res){
+        try {
+            const id = req.params.id;
+            await pokemon.updateOne({number: id}, req.body);
+            return res.status(200).json({message: "Pokemon atualizado com sucesso"});
+        } catch (err) {
+            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+        }
+    }
 }
 
 export default new PokemonController();
