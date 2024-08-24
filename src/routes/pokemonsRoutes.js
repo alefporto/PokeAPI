@@ -10,4 +10,6 @@ router.post('/pokemons', PokemonController.store)
 
 router.put('/pokemon/:id', PokemonController.update)
 
+router.delete('/pokemon/:id', PokemonController.delete)
+
 export default router;

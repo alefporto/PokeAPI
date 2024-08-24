@@ -40,6 +40,17 @@ class PokemonController {
             res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
         }
     }
+
+    async delete(req, res){
+        try {
+            const id =req.params.id;
+            const result = await pokemon.deleteOne({number: id});
+            if (result.deletedCount);
+                return res.status(200).json({message: "Pokemon deletado com sucesso"});
+        } catch (err) {
+            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+        }
+    }
 }
 
 export default new PokemonController();
