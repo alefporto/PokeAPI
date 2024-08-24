@@ -5,11 +5,8 @@ const router = Router();
 
 router.get('/pokemons', PokemonController.index);
 router.get('/pokemons/:id', PokemonController.showByNumber)
-
 router.post('/pokemons', PokemonController.store)
-
-router.put('/pokemon/:id', PokemonController.update)
-
-router.delete('/pokemon/:id', PokemonController.delete)
+router.put('/pokemons/:id', PokemonController.update)
+router.delete('/pokemons/:id', PokemonController.delete)
 
 export default router;
