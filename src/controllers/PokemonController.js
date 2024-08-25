@@ -1,7 +1,8 @@
+import NotFound from '../errors/NotFound.js';
 import pokemon from '../models/Pokemon.js';
 
 class PokemonController {
-    // GET /pokemons
+    // Instancia a query dos pokemons no database e passar pro middleware de paginação
     async index(req, res, next) {
         try {
             const queryPokemons = pokemon.find();
@@ -10,57 +11,70 @@ class PokemonController {
 
             next();
         } catch (err) {
+            // Envia o erro para o próximo middleware de tratamento de erros.
             next(err);
         }
     }
 
-    // GET /pokemons/:id
+    // Busca um pokemon pelo campo number no database. Se for encontrado retorna o pokemon, caso contrário retorna um erro 404.
     async showByNumber(req, res, next) {
         try {
             const { id } = req.params;
 
-            const result = await pokemon.findOne({ number: id });
+            const pokemonFound = await pokemon.findOne({ number: id });
 
-            return res.status(200).json(result);
+            if(pokemonFound === null)
+                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+
+            return res.status(200).json(pokemonFound);
         } catch (err) {
+            // Envia o erro para o próximo middleware de tratamento de erros.
             next(err);
         }
     }
 
-    // POST /pokemons
+    // Adiciona um novo pokemon ao database de acordo com os dados passados na requisição
     async store(req, res, next) {
         try {
             await pokemon.create(req.body);
 
-            return res.status(201).json({ message: "Sucesso ao adicionar pokemon" });
+            return res.status(201).json({ message: "Pokemon adicionado com sucesso" });
         } catch (err) {
+            // Envia o erro para o próximo middleware de tratamento de erros.
             next(err);
         }
     }
 
-    // PUT /pokemons/:id
+    // Atualiza um pokemon existente no database com os novos dados passados na requisição
     async update(req, res, next) {
         try {
             const { id } = req.params
 
-            await pokemon.updateOne({ number: id }, req.body);
+            const result = await pokemon.updateOne({ number: id }, req.body);
 
-            return res.status(200).json({ message: "Sucesso ao atualizar pokemon" });
+            if(result === null)
+                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+
+            return res.status(200).json({ message: "Pokemon atualizado com sucesso" });
         } catch (err) {
+            // Envia o erro para o próximo middleware de tratamento de erros.
             next(err);
         }
     }
 
-    // DELETE /pokemons/:id
+    // Deleta um pokemon existente no database
     async delete(req, res, next) {
         try {
             const { id } = req.params;
 
             const result = await pokemon.deleteOne({ number: id });
 
-            if (result.deletedCount)
-                return res.status(200).json({ message: "Sucesso ao deletar pokemon" });
+            if(result === null)
+                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+
+            return res.status(200).json({ message: "Pokemon deletado com sucesso" });
         } catch (err) {
+            // Envia o erro para o próximo middleware de tratamento de erros.
             next(err);
         }
     }

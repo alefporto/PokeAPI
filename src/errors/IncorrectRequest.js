@@ -1,8 +1,9 @@
-import BaseError from "./BaseError.js";
+import BaseError from './BaseError.js';
 
-class IncorrectRequest extends BaseError{
+// Representa um erro de solicitação incorreta (erro de validação ou dados inválidos)
+class IncorrectRequest extends BaseError {
     constructor(message = "Um ou mais dados fornecidos estão incorretos"){
-        super(message, 400)
+        super(message, 400);
     }
 }
 
