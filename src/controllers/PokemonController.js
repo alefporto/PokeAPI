@@ -2,60 +2,66 @@ import pokemon from '../models/Pokemon.js';
 
 class PokemonController {
     // GET /pokemons
-    async index(req, res){
+    async index(req, res, next) {
         try {
-            const pokemons = await pokemon.find();
-            
-            return res.status(200).json(pokemons);
-        } catch(err) {
-            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
-        }
-    }
+            const queryPokemons = pokemon.find();
 
-    async showByNumber(req, res){
-        try {
-            const id = req.params.id;
-            
-            const result = await pokemon.findOne({number: id});
-            
-            return res.status(200).json(result); 
-        } catch(err) {
-            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
-        }
-    }
+            req.result = queryPokemons;
 
-    async store(req, res){
-        try {
-            const newPokemon = await pokemon.create(req.body);
-            
-            return res.status(201).json({message: "Pokemon adicionado com sucesso",  pokemon: newPokemon})
-        } catch(err) {
-            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
-        }
-    }
-
-    async update(req, res){
-        try {
-            const id = req.params.id;
-            
-            await pokemon.updateOne({number: id}, req.body);
-            
-            return res.status(200).json({message: "Pokemon atualizado com sucesso"});
+            next();
         } catch (err) {
-            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
         }
     }
 
-    async delete(req, res){
+    // GET /pokemons/:id
+    async showByNumber(req, res) {
         try {
-            const id =req.params.id;
+            const { id } = req.params;
 
-            const result = await pokemon.deleteOne({number: id});
-            
-            if (result.deletedCount);
-                return res.status(200).json({message: "Pokemon deletado com sucesso"}); 
+            const result = await pokemon.findOne({ number: id });
+
+            return res.status(200).json(result);
         } catch (err) {
-            res.status(500).json( {message: `Erro interno do servidor: ${err.message}`} ); // Tratamento genérico de erros
+            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+        }
+    }
+
+    // POST /pokemons
+    async store(req, res) {
+        try {
+            await pokemon.create(req.body);
+
+            return res.status(201).json({ message: "Sucesso ao adicionar pokemon" });
+        } catch (err) {
+            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+        }
+    }
+
+    // PUT /pokemons/:id
+    async update(req, res) {
+        try {
+            const { id } = req.params
+
+            await pokemon.updateOne({ number: id }, req.body);
+
+            return res.status(200).json({ message: "Sucesso ao atualizar pokemon" });
+        } catch (err) {
+            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+        }
+    }
+
+    // DELETE /pokemons/:id
+    async delete(req, res) {
+        try {
+            const { id } = req.params;
+
+            const result = await pokemon.deleteOne({ number: id });
+
+            if (result.deletedCount)
+                return res.status(200).json({ message: "Sucesso ao deletar pokemon" });
+        } catch (err) {
+            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
         }
     }
 }
