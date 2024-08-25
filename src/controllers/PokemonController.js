@@ -10,12 +10,12 @@ class PokemonController {
 
             next();
         } catch (err) {
-            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+            next(err);
         }
     }
 
     // GET /pokemons/:id
-    async showByNumber(req, res) {
+    async showByNumber(req, res, next) {
         try {
             const { id } = req.params;
 
@@ -23,23 +23,23 @@ class PokemonController {
 
             return res.status(200).json(result);
         } catch (err) {
-            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+            next(err);
         }
     }
 
     // POST /pokemons
-    async store(req, res) {
+    async store(req, res, next) {
         try {
             await pokemon.create(req.body);
 
             return res.status(201).json({ message: "Sucesso ao adicionar pokemon" });
         } catch (err) {
-            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+            next(err);
         }
     }
 
     // PUT /pokemons/:id
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const { id } = req.params
 
@@ -47,12 +47,12 @@ class PokemonController {
 
             return res.status(200).json({ message: "Sucesso ao atualizar pokemon" });
         } catch (err) {
-            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+            next(err);
         }
     }
 
     // DELETE /pokemons/:id
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             const { id } = req.params;
 
@@ -61,7 +61,7 @@ class PokemonController {
             if (result.deletedCount)
                 return res.status(200).json({ message: "Sucesso ao deletar pokemon" });
         } catch (err) {
-            res.json({ message: `Erro interno do servidor: ${err.message}` }); // Tratamento genérico de erros
+            next(err);
         }
     }
 }
