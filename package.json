@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "API REST de gerenciamento de Pokémons, desenvolvida para a disciplina de Desenvolvimento de Software para Web",
   "main": "server.js",
+  "engines": {
+    "node": "20.x"
+  },
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
