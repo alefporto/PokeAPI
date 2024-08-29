@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 // Pega a string de conexão a partir das variáveis de ambiente
 const uri = process.env.MONGO_URI; 
-
+console.log(uri);
 // Estabelece conexão com o database MongoDB usando a URI
 mongoose.connect(uri);
 
