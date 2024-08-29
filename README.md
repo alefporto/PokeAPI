@@ -27,20 +27,20 @@
 
 Uma API REST de gerenciamento de Pokémons e persistência de dados, feita na disciplina de Desenvolvimento de Software para WEB.
 
-API REST utilizando NodeJS.
+API REST utilizando NodeJS, Express e MongoDB.
 
 Métodos CRUD:
-- GET /pokemons → Retorna todos os Pokémons.
-- GET /pokemons/:id → Retorna o Pokémon com ID informado.
-- POST /pokemons → Adicionar um novo Pokémon.
-- PUT /pokemons:/:id → Substitui um Pokémon existente no banco de dados.
-- DELETE /pokemons/:id → Remove um Pokémon.
+- GET /pokemons → Retorna todos os Pokémons existentes no banco de dados.
+- GET /pokemons/:id → Retorna o Pokémon existente no banco de dados com o ID informado.
+- POST /pokemons → Adiciona um novo Pokémon ao banco de dados.
+- PUT /pokemons:/:id → Atualiza um Pokémon existente no banco de dados.
+- DELETE /pokemons/:id → Deleta um Pokémon existente no banco de dados.
 
 
 Um Pokémon tem os atributos: 
-- Nome
-- Número
-- Tipo
+- Nome.
+- Número.
+- Tipo.
 - Imagem. 
 
 
@@ -60,13 +60,13 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Nodemon][nodemon]
 - [Dotenv][dotenv]
 
-## Licença
+## Autores
 
-Este projeto esta sobe a licença MIT.
+- [Alef Porto][alef]
+- [Rodrigo Lima][rodrigo]
 
-Feito por Alef Porto e Rodrigo Lima
-
-
+[rodrigo]: https://github.com/Rodrigolp18
+[alef]: https://github.com/alefporto
 [javascript]: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript
 [nodejs]: https://nodejs.org/
 [express]: https://expressjs.com/pt-br/
