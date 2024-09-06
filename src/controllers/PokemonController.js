@@ -23,8 +23,8 @@ class PokemonController {
 
             const pokemonFound = await pokemon.findOne({ number: id });
 
-            if(pokemonFound === null)
-                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+            if (pokemonFound === null)
+                return next(new NotFound("Não foi encontrado um pokemon com esse número"));
 
             return res.status(200).json(pokemonFound);
         } catch (err) {
@@ -38,8 +38,8 @@ class PokemonController {
         try {
             const { number } = req.body;
             const isPokemonExistente = await pokemon.findOne({ number });
-            
-            if(isPokemonExistente)
+
+            if (isPokemonExistente)
                 return res.status(400).json({ message: "Já existe um pokemon com esse número" });
 
             await pokemon.create(req.body);
@@ -56,10 +56,13 @@ class PokemonController {
         try {
             const { id } = req.params
 
+            const pokemonFound = await pokemon.findOne({ number: id });
+
+            if (!pokemonFound) return next(new NotFound("Não foi encontrado um pokemon com esse número"));
+
             const result = await pokemon.updateOne({ number: id }, req.body);
 
-            if(result === null)
-                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+            if (!result.modifiedCount) return res.status(400).json({ message: "Não foi possível atualizar o pokemon" });
 
             return res.status(200).json({ message: "Pokemon atualizado com sucesso" });
         } catch (err) {
@@ -75,8 +78,8 @@ class PokemonController {
 
             const result = await pokemon.deleteOne({ number: id });
 
-            if(result === null)
-                return next( new NotFound("Não foi encontrado um pokemon com esse número") );
+            if (result === null)
+                return next(new NotFound("Não foi encontrado um pokemon com esse número"));
 
             return res.status(200).json({ message: "Pokemon deletado com sucesso" });
         } catch (err) {
