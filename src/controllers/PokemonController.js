@@ -1,3 +1,4 @@
+import IncorrectRequest from '../errors/IncorrectRequest.js';
 import NotFound from '../errors/NotFound.js';
 import pokemon from '../models/Pokemon.js';
 
@@ -58,11 +59,11 @@ class PokemonController {
 
             const pokemonFound = await pokemon.findOne({ number: id });
 
-            if (!pokemonFound) return next(new NotFound("Não foi encontrado um pokemon com esse número"));
+            if (!pokemonFound) return next(new IncorrectRequest("Não foi encontrado um pokemon com esse número"));
 
             const result = await pokemon.updateOne({ number: id }, req.body);
-
-            if (!result.modifiedCount) return res.status(400).json({ message: "Não foi possível atualizar o pokemon" });
+            
+            if (!result.modifiedCount) return next(new IncorrectRequest("Não foi possível atualizar o pokemon"));
 
             return res.status(200).json({ message: "Pokemon atualizado com sucesso" });
         } catch (err) {
@@ -76,10 +77,11 @@ class PokemonController {
         try {
             const { id } = req.params;
 
-            const result = await pokemon.deleteOne({ number: id });
+            const pokemonFound = await pokemon.findOne({ number: id });
 
-            if (result === null)
-                return next(new NotFound("Não foi encontrado um pokemon com esse número"));
+            if (!pokemonFound) return next(new IncorrectRequest("Não foi encontrado um pokemon com esse número"));
+
+            await pokemon.deleteOne({ number: id });
 
             return res.status(200).json({ message: "Pokemon deletado com sucesso" });
         } catch (err) {
