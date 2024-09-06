@@ -36,6 +36,12 @@ class PokemonController {
     // Adiciona um novo pokemon ao database de acordo com os dados passados na requisição
     async store(req, res, next) {
         try {
+            const { number } = req.body;
+            const isPokemonExistente = await pokemon.findOne({ number });
+            
+            if(isPokemonExistente)
+                return res.status(400).json({ message: "Já existe um pokemon com esse número" });
+
             await pokemon.create(req.body);
 
             return res.status(201).json({ message: "Pokemon adicionado com sucesso" });
